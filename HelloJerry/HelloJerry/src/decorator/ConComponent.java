@@ -4,7 +4,7 @@ public class ConComponent implements Component{
 
 	public void go(){
 		
-		System.out.println("running");
+		System.out.println("running163");
 	}
 	
 }
