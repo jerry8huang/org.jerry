@@ -17,6 +17,7 @@ public class WordMap {
     		
     	input.add(new String(charBuf));
     		}
+    	FrIn.close();
        //String input = "a1,b2,3c,d4d,a1,b2,a1";
     	String inFile=input.toString();
         String[] ws = inFile.split(",");
