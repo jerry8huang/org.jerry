@@ -71,7 +71,7 @@ public class NetClient {
 	   System.exit(0);
 	
 	}catch (Exception e){System.err.println(e);
-	                     System.err.println("USAGE:java NetClient host port");}
+	                     System.err.println("USAGE:java NetClient <host> <port>");}
 	
 	
 	}
