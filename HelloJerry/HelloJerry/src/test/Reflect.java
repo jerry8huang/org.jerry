@@ -4,7 +4,7 @@ package test;
 
 import java.lang.reflect.Constructor;
 
-//Í¨¹ýClassµ÷ÓÃÆäËûÀàÖÐµÄ¹¹Ôìº¯Êý £¨Ò²¿ÉÒÔÍ¨¹ýÕâÖÖ·½Ê½Í¨¹ýClass´´½¨ÆäËûÀàµÄ¶ÔÏó£©
+//Í¨ï¿½ï¿½Classï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÐµÄ¹ï¿½ï¿½ìº¯ï¿½ï¿½ ï¿½ï¿½Ò²ï¿½ï¿½ï¿½ï¿½Í¨ï¿½ï¿½ï¿½ï¿½ï¿½Ö·ï¿½Ê½Í¨ï¿½ï¿½Classï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¶ï¿½ï¿½ï¿½
 class Person{
      
     public Person() {
@@ -38,8 +38,8 @@ public class Reflect{
     public static void main(String[] args) {
         Class<?> demo=null;
         try{
-            //demo=Class.forName("test.Person");
-        	  demo=new Person().getClass();
+            demo=Class.forName("test.Person");
+            //demo=new Person().getClass();
         }catch (Exception e) {
             e.printStackTrace();
         }
@@ -47,7 +47,7 @@ public class Reflect{
         Person per2=null;
         Person per3=null;
         Person per4=null;
-        //È¡µÃÈ«²¿µÄ¹¹Ôìº¯Êý
+        //È¡ï¿½ï¿½È«ï¿½ï¿½ï¿½Ä¹ï¿½ï¿½ìº¯ï¿½ï¿½
         Constructor<?> cons[]=demo.getConstructors();
         try{
             per1=(Person)cons[0].newInstance();
