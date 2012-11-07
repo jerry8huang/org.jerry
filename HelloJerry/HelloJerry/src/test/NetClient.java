@@ -2,11 +2,12 @@ package test;
 
 import java.net.*;
 import java.io.*;
+import test.IMCliServer;
 
 public class NetClient {
 	
 	public static void main(String[] args) {
-	
+	  
 		
 	try{
 	//initial a socket with host and port.
@@ -19,14 +20,16 @@ public class NetClient {
 	
 	//create input fromServer and output toServer
 	 final Reader fromServer=new InputStreamReader(soc.getInputStream());
-	 PrintWriter toServer=new PrintWriter(soc.getOutputStream());
+	 final PrintWriter toServer=new PrintWriter(soc.getOutputStream());
 	
 	//create input fromUser and output toUser
      Reader fromUser=new InputStreamReader(System.in);//transform Byte stream into Char stream with class InputStreamReader 
 	 final PrintWriter toUser=new PrintWriter(System.out,true);
 	 
-	//create another thread to handle input fromServer and send message to user
-	  Thread t = new Thread(){
+	 
+	 
+	// create another thread to handle input fromServer and send message to user
+	  Thread tIn = new Thread(){
 		  
 		  public void run(){
 			  
@@ -51,24 +54,54 @@ public class NetClient {
 		  
 	  };
 	  
-	  t.start();//must start thread t before send message to server.
+	  tIn.start();//must start thread t before send message to server.
 	 
 	
+	  
+	
 	//send message from user to server
-	  ///test String line;
+	 
+	 Thread t = new Thread(){
+		  
+		  public void run(){
+			  
+			  
+				  IMCliServer.server(0);
+					
+			  
+			 }
+		  
+		  
+		  
+	  };
+	 
+	 t.start();
+	 
+	 
+	// int cliSerPort=IMCliServer.serSoc.getLocalPort();
+		System.out.println("gooo.....");
+	   // toServer.print(cliSerPort);
+	   // toServer.flush();
+	 
+	  //send message from system.in to server;
+	   
+	   
 	   char[]bufferU=new char[10];
 	   int readint;
 	  while((readint=fromUser.read(bufferU))>0){
-		  
+		 
 		  toServer.write(bufferU, 0, readint);
 		  toServer.flush();
 		  
 	  }
-	
+	  
+	 
+	 //
+	  
 	//close socket and terminate JVM to quit
 	  soc.close();
 	  toUser.println("connection closed by client");
-	   System.exit(0);
+	   //System.exit(0);
 	
 	}catch (Exception e){System.err.println(e);
 	                     System.err.println("USAGE:java NetClient <host> <port>");}
