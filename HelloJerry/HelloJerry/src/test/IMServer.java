@@ -4,6 +4,20 @@ import java.net.*;
 import java.io.*;
 import java.util.*;
 
+
+/**
+ * This is a IM system which is composed of following component:
+ * IMServer:
+ * 
+ * NetClient:
+ * IMCliServer:
+ * subClient:
+ * 
+ * NetClient02:
+ * 
+ * 
+ * */
+
 public class IMServer extends Thread {
 
 	 //main() start the IMServer
@@ -31,9 +45,9 @@ public class IMServer extends Thread {
 			 PrintWriter out=new PrintWriter(new OutputStreamWriter(soc.getOutputStream()));
 			 
 			 //output object userPort(HashMap<String,Integer>)
-			 ObjectOutputStream outObj=new ObjectOutputStream(soc.getOutputStream());
+			 //ObjectOutputStream outObj=new ObjectOutputStream(soc.getOutputStream());
 			 
-			 out.println("hello client...");
+			 out.println("hello client,this is IMServer");
 			 out.flush();
 			 
 			 //save userName and cliSerPort with HashMap userPort
@@ -67,16 +81,16 @@ public class IMServer extends Thread {
 			 else{
 				 
 				 System.out.println(userPort.keySet());
-				 out.println("IMServer got it."+"\n"+userPort.keySet());
+				 out.println("IMServer got it."+"\n"+userPort.entrySet());
 				 out.flush();
-				 outObj.writeObject(userPort);
-				 outObj.flush();
+				 //outObj.writeObject(userPort);
+				 //outObj.flush();
 			 }
 			 }
 			 
 			 in.close();
 			 out.close();
-			 outObj.close();
+			 //outObj.close();
 			 soc.close();
 			 
 		 }

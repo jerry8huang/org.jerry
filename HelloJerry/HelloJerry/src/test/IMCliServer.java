@@ -4,9 +4,12 @@ import java.net.*;
 import java.io.*;
 
 
-public class IMCliServer extends Thread {
+public class IMCliServer extends Thread{
 
 	 Socket soc;
+	 
+	 
+	 
 	 
 	 //constructor IMCliServer();
 	  IMCliServer(Socket soc){
@@ -15,29 +18,46 @@ public class IMCliServer extends Thread {
 	 }
 	 
 	 
-	 //run()
-	 public void run(){
+	 //run() to handle input from talker and send message to cliSer
+	 //and start thread toTalk
+	 public void run() {
+		 
+		     toTalk.start();
+		 
 		 try{
+			 Reader fromTalker=new BufferedReader(new InputStreamReader(soc.getInputStream()));
+			 PrintWriter toTalker=new PrintWriter(new OutputStreamWriter(soc.getOutputStream()));
+			 
+			 
+			 PrintWriter toCliSer=new PrintWriter(System.out,true);
+			 
+			 
+			 /*
 			 InputStream in=soc.getInputStream();
 			 PrintWriter out=new PrintWriter(new OutputStreamWriter(soc.getOutputStream()));
 			 out.println("hello client...");
 			 out.flush();
+			 */
+			 
+			
 			 
 			 
-			 byte [] buf=new byte[100];
-			 int readByte;
+			 //read message from Talker and output it to cliSer console
+			 char [] buf=new char[100];
+			 int readChar;
 			 
-			 while((readByte=in.read(buf))>0){
-				 System.out.println(new String(buf, 0, readByte));
-				 out.println("fromIMCliServer...");
-				 out.flush();
+			 while((readChar=fromTalker.read(buf))>0){
+				 //System.out.println(new String(buf, 0, readChar));
+				 toCliSer.write(buf, 0, readChar);
+				 toCliSer.flush();
 			 }
 			 
 			 
 			 
 			 
-			 in.close();
-			 out.close();
+			 toTalker.close();
+			 fromTalker.close();
+			 toCliSer.close();
 			 soc.close();
 			 
 		 }
@@ -45,6 +65,58 @@ public class IMCliServer extends Thread {
 		 
 		 
 	 }
+	 
+	 
+	 
+	// create another thread to handle input from CliSer and send message to talker
+	 
+	 Thread toTalk=new Thread(){
+		 
+		 public void run(){
+			 
+			 try{
+				 PrintWriter toTalker=new PrintWriter(new OutputStreamWriter(soc.getOutputStream()));
+				 
+				 Reader fromCliSer=new BufferedReader(new InputStreamReader(System.in));
+				 
+				 toTalker.println("hi guy");
+				 toTalker.flush();
+				 
+				 
+				 char [] buf=new char[100];
+				 int readChar;
+				 
+				 while((readChar=fromCliSer.read(buf))>0){
+					 
+					 toTalker.write(buf, 0, readChar);
+					 toTalker.flush();
+				 }
+				 
+				 toTalker.close();
+				 
+				 fromCliSer.close();
+				 soc.close();
+				 
+			 }
+			 catch(Exception e){
+				 
+				 System.err.println(e);
+				 
+				 
+			 }
+			 
+			 
+			 
+		 }
+		 
+		 
+		 
+	 };
+	 
+	 
+	 
+	 
+	 
 	 
 	 
 	 //server() to accept and create socket, and also bind a port to the server

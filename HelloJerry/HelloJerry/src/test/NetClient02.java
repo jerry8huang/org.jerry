@@ -5,7 +5,7 @@ import java.io.*;
 //import java.util.*;
 import test.IMCliServer;
 
-public class NetClient {
+public class NetClient02 {
 	
 	public static void main(String[] args) {
 	  
@@ -94,7 +94,7 @@ public class NetClient {
 	 //send message(user:cliSerPort) from client to server
 	   int cliSerPort=cliSerSoc.getLocalPort();
 		
-	    toServer.print("jerry"+":"+cliSerPort);
+	    toServer.print("mike"+":"+cliSerPort);
 	    toServer.flush();
 	 
 	  //check message from system.in and handle it accordingly 
@@ -114,8 +114,6 @@ public class NetClient {
 				 
 				String[] tok= new String(bufferU,0,readChar).split(" ");
 				System.out.println(tok[1]);
-				
-				//connect to talker specified by port tok[1]
 				new subClient(new Socket("localhost",Integer.parseInt(tok[1]))); 
 			 }
 			 else{
@@ -138,7 +136,7 @@ public class NetClient {
 	   //System.exit(0);
 	
 	}catch (Exception e){System.err.println(e);
-	                     System.err.println("USAGE:java NetClient <host> <port>");}
+	                     System.err.println("USAGE:java NetClient02 <host> <port>");}
 	
 	
 	}
