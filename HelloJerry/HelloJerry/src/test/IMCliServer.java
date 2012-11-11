@@ -6,63 +6,23 @@ import java.io.*;
 
 public class IMCliServer extends Thread{
 
-	 Socket soc;
+	  Socket soc;
 	 
 	 
 	 
 	 
 	 //constructor IMCliServer();
-	  IMCliServer(Socket soc){
+	   IMCliServer(Socket soc){
 		 
-		 this.soc=soc;
+		  this.soc=soc;
 	 }
 	 
 	 
-	 //run() to handle input from talker and send message to cliSer
-	 //and start thread toTalk
+	 //run() start thread toTalk first and then handle input from talker and send message to cliSer
+	 //
 	 public void run() {
 		 
 		     toTalk.start();
-		 
-		 try{
-			 Reader fromTalker=new BufferedReader(new InputStreamReader(soc.getInputStream()));
-			 PrintWriter toTalker=new PrintWriter(new OutputStreamWriter(soc.getOutputStream()));
-			 
-			 
-			 PrintWriter toCliSer=new PrintWriter(System.out,true);
-			 
-			 
-			 /*
-			 InputStream in=soc.getInputStream();
-			 PrintWriter out=new PrintWriter(new OutputStreamWriter(soc.getOutputStream()));
-			 out.println("hello client...");
-			 out.flush();
-			 */
-			 
-			
-			 
-			 
-			 //read message from Talker and output it to cliSer console
-			 char [] buf=new char[100];
-			 int readChar;
-			 
-			 while((readChar=fromTalker.read(buf))>0){
-				 //System.out.println(new String(buf, 0, readChar));
-				 toCliSer.write(buf, 0, readChar);
-				 toCliSer.flush();
-			 }
-			 
-			 
-			 
-			 
-			 toTalker.close();
-			 fromTalker.close();
-			 toCliSer.close();
-			 soc.close();
-			 
-		 }
-		 catch(IOException e){System.err.println(e);}
-		 
 		 
 	 }
 	 
@@ -139,7 +99,16 @@ public class IMCliServer extends Thread{
 	   }
 	    
 	 
-	 
+	 /*
+	  * 
+	  *
+	  
+	  public static void main(String[] args) throws IOException{
+		  
+		  IMCliServer.server(new ServerSocket(8889));
+		  
+	  }
+	   */
 	
 	
 }

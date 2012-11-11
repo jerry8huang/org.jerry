@@ -111,7 +111,7 @@ public class IMServer extends Thread {
 				   new IMServer(s).start();
 			   }
 			   
-		   }catch(IOException e){System.err.println(e);}
+		   }catch(IOException e){e.printStackTrace();}
 		   
 		   
 		   
