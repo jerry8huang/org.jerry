@@ -10,7 +10,7 @@ public class NetServer {
 	 
 	public static void main(String [] args){
 		
-                IMServer.server(9999); 
+                new IMServer().server(9999); 
                 
 		
 		

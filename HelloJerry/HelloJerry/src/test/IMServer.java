@@ -23,22 +23,25 @@ public class IMServer extends Thread {
 	 //main() start the IMServer
 	public static void main(String [] args){
 		
-        IMServer.server(8889); 
+       new IMServer().server(8889); 
 
     }
 	
 	
 	 Socket soc;
-	 static ServerSocket serSoc;
-	 
-	 //constructor IMServer();
-	  IMServer(Socket soc){
-		 
-		 this.soc=soc;
-	 }
+	 ServerSocket serSoc;
+     //save userName and cliSerPort with HashMap userPort
+     HashMap<String,Integer> userPort=new HashMap<String,Integer>();
 	 
 	 
-	 //run() to handle input from client and save it
+	 
+	 
+
+
+      Thread thread_IMSer=new Thread(){
+
+
+           //run() to handle input from client and save it
 	 public void run(){
 		 try{
 			 InputStream in=soc.getInputStream();
@@ -50,8 +53,7 @@ public class IMServer extends Thread {
 			 out.println("hello client,this is IMServer");
 			 out.flush();
 			 
-			 //save userName and cliSerPort with HashMap userPort
-			 HashMap<String,Integer> userPort=new HashMap<String,Integer>();
+			
 			 String token;
 			 String []subTok=new String[2];
 			 
@@ -63,7 +65,12 @@ public class IMServer extends Thread {
 			 token=new String(buf, 0, readByte);
 			 subTok=token.split(":");
 			 System.out.println(token);
+			 
+			 System.out.println(userPort.entrySet());
+			 
 			 userPort.put(subTok[0], Integer.parseInt(subTok[1]));
+			 
+			 System.out.println(userPort.entrySet());
 			 
 			 //reply client with message "IMServer got it."
 			 while((readByte=in.read(buf))>0){
@@ -80,7 +87,7 @@ public class IMServer extends Thread {
 			 }
 			 else{
 				 
-				 System.out.println(userPort.keySet());
+				 System.out.println(userPort.entrySet());
 				 out.println("IMServer got it."+"\n"+userPort.entrySet());
 				 out.flush();
 				 //outObj.writeObject(userPort);
@@ -98,17 +105,23 @@ public class IMServer extends Thread {
 		 
 		 
 	 }
+
+
+     };
+	
 	 
 	 
 	 //server() to accept and create socket, and also bind a port to the server
 	 
-	  public static void server(int serPort) {
+	  public  void server(int serPort) {
 		   try{
 			    serSoc=new ServerSocket(serPort);
 			   System.out.println("IMServer:"+serSoc.getLocalPort());
 			   while(true){
 				   Socket s=serSoc.accept();
-				   new IMServer(s).start();
+				   soc=s;
+				   if(!thread_IMSer.isAlive())
+                   thread_IMSer.start();
 			   }
 			   
 		   }catch(IOException e){e.printStackTrace();}
