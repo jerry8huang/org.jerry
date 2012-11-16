@@ -1,5 +1,22 @@
 package test;
 
+
+/**
+ * This(NetClient) is a component of a IM system which is composed of following component:
+ * IMServer:
+ * 
+ * NetClient:
+ * 
+ * subClient:
+ * 
+ * NetClient02:
+ * 
+ * 
+ * */
+
+
+
+
 import java.net.*;
 import java.io.*;
 //import java.util.*;
@@ -115,7 +132,7 @@ public class NetClient {
 			 if(new String(bufferU,0,readChar).contains("contact")){
 				 
 				String[] tok= new String(bufferU,0,readChar).split(" ");
-				System.out.println(tok[1]);
+				//System.out.println(tok[1]);
 				
 				//connect to talker specified by port tok[1]
 				final subClient subTal=new subClient(new Socket("localhost",Integer.parseInt(tok[1].trim()))); 
@@ -133,15 +150,17 @@ public class NetClient {
     	       subTal.usrToSer();
 				
 			 }
-			 else{
-				 if(s!=null&&s.isConnected()){
+			 
+			 else if(s!=null&&s.isConnected()){
+					 
 					 System.out.println("socket connected...1");
+					 
 					 //subClient subMe=new subClient(s);
 					 subMe.usrToSer();/////////////////////
-					 System.out.println("socket connected...2");
+					 
 					 
 				 }
-				 else{
+			 else{
 					 subCli.toServer.write(bufferU, 0, readChar);
 					 subCli.toServer.flush();
 					 
@@ -151,13 +170,14 @@ public class NetClient {
 			 }
 			  
 			  
-		  }
+		  
 	    
 	  
 	
 	
 	}catch (Exception e){System.err.println(e);
-	                     System.err.println("USAGE:java NetClient <host> <port>");}
+	                     System.err.println("USAGE(to IM server):java NetClient <type any key on keyboard>");
+	                     System.err.println("USAGE(to IM talker):java NetClient <contact> <port of talker>");}
 	
 	
 	}

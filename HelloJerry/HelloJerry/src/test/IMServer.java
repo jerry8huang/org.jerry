@@ -6,11 +6,11 @@ import java.util.*;
 
 
 /**
- * This is a IM system which is composed of following component:
+ * This(IMServer) is a component of a IM system which is composed of following component:
  * IMServer:
  * 
  * NetClient:
- * IMCliServer:
+ * 
  * subClient:
  * 
  * NetClient02:
@@ -18,7 +18,7 @@ import java.util.*;
  * 
  * */
 
-public class IMServer extends Thread {
+public class IMServer  {
 
 	 //main() start the IMServer
 	public static void main(String [] args){
@@ -28,18 +28,30 @@ public class IMServer extends Thread {
     }
 	
 	
-	 Socket soc;
+	
 	 ServerSocket serSoc;
      //save userName and cliSerPort with HashMap userPort
      HashMap<String,Integer> userPort=new HashMap<String,Integer>();
+	 synchronized void put(String key, Integer value){
+		 
+		 userPort.put(key, value);
+	 }
 	 
-	 
-	 
+	 synchronized void remove(String key){
+		 
+		 userPort.remove(key);
+	 }
 	 
 
 
-      Thread thread_IMSer=new Thread(){
+      class thread_IMSer extends Thread{
 
+         Socket soc;
+
+         thread_IMSer(Socket soc){
+
+           this.soc=soc;
+         }
 
            //run() to handle input from client and save it
 	 public void run(){
@@ -66,11 +78,11 @@ public class IMServer extends Thread {
 			 subTok=token.split(":");
 			 System.out.println(token);
 			 
-			 System.out.println(userPort.entrySet());
+			
 			 
-			 userPort.put(subTok[0], Integer.parseInt(subTok[1]));
+			 put(subTok[0], Integer.parseInt(subTok[1]));
 			 
-			 System.out.println(userPort.entrySet());
+			 
 			 
 			 //reply client with message "IMServer got it."
 			 while((readByte=in.read(buf))>0){
@@ -83,11 +95,11 @@ public class IMServer extends Thread {
 			 //otherwise print available userName.
 			 if(!soc.isConnected()){
 				 
-				 userPort.remove(subTok[0]);
+				 remove(subTok[0]);
 			 }
 			 else{
 				 
-				 System.out.println(userPort.entrySet());
+				 //System.out.println(userPort.entrySet());
 				 out.println("IMServer got it."+"\n"+userPort.entrySet());
 				 out.flush();
 				 //outObj.writeObject(userPort);
@@ -119,12 +131,12 @@ public class IMServer extends Thread {
 			   System.out.println("IMServer:"+serSoc.getLocalPort());
 			   while(true){
 				   Socket s=serSoc.accept();
-				   soc=s;
-				   if(!thread_IMSer.isAlive())
-                   thread_IMSer.start();
+				   new thread_IMSer(s).start();
+				  
 			   }
 			   
 		   }catch(IOException e){e.printStackTrace();}
+		  
 		   
 		   
 		   

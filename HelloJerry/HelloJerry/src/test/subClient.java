@@ -7,6 +7,20 @@ import java.net.*;
  * This program connects to a server at a specified host and port.
  * It reads text from the console and sends it to the server.
  * It reads text from the server and sends it to the console.
+ * 
+ * 
+ * 
+ * This(subClient) is also a component of a IM system which is composed of following component:
+ * IMServer:
+ * 
+ * NetClient:
+ * 
+ * subClient:
+ * 
+ * NetClient02:
+ * 
+ * 
+ * 
  **/
 public class subClient {
 	  Socket s;
@@ -68,8 +82,12 @@ public class subClient {
 	  
 	 public void usrToSer(){
 		  
-		 try{ String line;
+		 try{ 
+			 
+			 System.out.println("into usrToSer()");
+			 String line;
           while((line = fromUser.readLine()) != null) {
+        	  System.out.println("into while");
               toServer.print(line + "\r\n");
               toServer.flush();
           }

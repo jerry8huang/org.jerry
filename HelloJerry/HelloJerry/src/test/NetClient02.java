@@ -1,5 +1,22 @@
 package test;
 
+
+
+/**
+ * This(NetClient02) is a component of a IM system which is composed of following component:
+ * IMServer:
+ * 
+ * NetClient:
+ * 
+ * subClient:
+ * 
+ * NetClient02:
+ * 
+ * 
+ * */
+
+
+
 import java.net.*;
 import java.io.*;
 //import java.util.*;
@@ -135,10 +152,12 @@ public class NetClient02 {
 			 }
 			 else{
 				 if(s!=null&&s.isConnected()){
+					 
+					 subMe.toServer.println("hi guy");
 					 System.out.println("socket connected...1");
 					// subMe=new subClient(s);
 					 subMe.usrToSer();/////////////////////
-					 System.out.println("socket connected...2");
+					 
 					 
 				 }
 				 else{
@@ -157,7 +176,8 @@ public class NetClient02 {
 	
 	
 	}catch (Exception e){System.err.println(e);
-	                     System.err.println("USAGE:java NetClient02 <host> <port>");}
+	System.err.println("USAGE(to IM server):java NetClient02 <type any key on keyboard>");
+    System.err.println("USAGE(to IM talker):java NetClient02 <contact> <port of talker>");}
 	
 	
 	}
