@@ -2,8 +2,9 @@ package test;
 
 import java.net.*;
 import java.io.*;
+import java.rmi.RemoteException;
 import java.util.*;
-
+import rmi.Hello;
 
 /**
  * This(IMServer) is a component of a IM system which is composed of following component:
@@ -21,17 +22,14 @@ import java.util.*;
 public class IMServer  {
 
 	 //main() start the IMServer
-	public static void main(String [] args){
-		
-       new IMServer().server(8889); 
-
-    }
+	
 	
 	
 	
 	 ServerSocket serSoc;
      //save userName and cliSerPort with HashMap userPort
-     HashMap<String,Integer> userPort=new HashMap<String,Integer>();
+     public HashMap<String,Integer> userPort=new HashMap<String,Integer>();
+  
 	 synchronized void put(String key, Integer value){
 		 
 		 userPort.put(key, value);
@@ -42,8 +40,8 @@ public class IMServer  {
 		 userPort.remove(key);
 	 }
 	 
-
-
+	 
+     
       class thread_IMSer extends Thread{
 
          Socket soc;
@@ -78,6 +76,7 @@ public class IMServer  {
 			 subTok=token.split(":");
 			 System.out.println(token);
 			 
+			
 			
 			 
 			 put(subTok[0], Integer.parseInt(subTok[1]));
